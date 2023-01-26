@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/dusantahiri/hello-go/pkg/config"
+	"github.com/dusantahiri/hello-go/pkg/models"
 	"github.com/dusantahiri/hello-go/pkg/render"
 )
 
@@ -28,11 +29,18 @@ func NewHandlers(r *Repository) {
 }
 
 // Home is the handler for the home page
-func Home(response http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(response, "home.page.tmpl")
+func (m *Repository) Home(response http.ResponseWriter, r *http.Request) {
+	render.RenderTemplate(response, "home.page.tmpl", &models.TemplateData{})
 }
 
 // About is the handler for the about page
-func About(response http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(response, "about.page.tmpl")
+func (m *Repository) About(response http.ResponseWriter, r *http.Request) {
+	// perform some logic
+	stringMap := make(map[string]string)
+	stringMap["test"] = "Hello, again"
+
+	// send data to the template
+	render.RenderTemplate(response, "about.page.tmpl", &models.TemplateData{
+		StringMap: stringMap,
+	})
 }
